@@ -1,0 +1,121 @@
+---
+# playbook.yml
+- name: 'Provision Image'
+  hosts: default
+  become: true
+  gather_facts: no
+  vars_files:
+  - vars/yum_repos.yml
+  tasks:
+  - name: Add Yum Repos
+    yum_repository:
+      name: "{{ repo.name }}"
+      state: present
+      file: "{{ repo.file }}"
+      description: "{{ repo.description }}"
+      baseurl: "{{ repo.baseurl }}"
+      enabled: "{{ repo.enabled }}"
+      gpgcheck: "yes"
+      gpgcakey: "{{ repo.gpgcakey }}"
+    loop_control:
+      loop_var: repo
+    loop: "{{ yum_repos }}"
+    register: repo_add
+    tags:
+    - docker
+    - git
+
+  - name: Add GPG Keys
+    rpm_key:
+      key: "{{ item }}"
+      state: present
+    with_items:
+    - https://download.docker.com/linux/centos/gpg
+    - https://packages.endpoint.com/endpoint-rpmsign-7.pub
+    tags:
+    - docker
+    - git
+
+  - name: Yum Clean
+    command: yum --disableplugin=rhnplugin clean all 
+    args:
+      warn: no
+    when: repo_add is changed
+    tags:
+    - git
+
+  - name: Install Git 
+    yum:
+      name: git
+      state: latest
+    tags:
+    - git
+  
+  - name: Check Git Version
+    command: git --version
+    changed_when: no
+    register: git_version
+    tags:
+    - git
+
+  - name: Retry - Git Install
+    yum:
+      name: git
+      state: latest
+    when: '"git version 2.30" not in git_version.stdout'
+    tags:
+    - git
+  
+  - name: Register with RHSM
+    redhat_subscription:
+      username: "{{ rhsm_user }}"
+      password: "{{ rhsm_pass }}"
+      pool: "{{ rhsm_pool }}"
+      state: present
+      force_register: yes
+    tags:
+    - docker
+    - rhsm
+
+  - name: Enable RHEL 7 Extras
+    rhsm_repository:
+      name: "{{ repo }}" 
+      state: enabled
+    loop_control:
+      loop_var: repo
+    loop:
+    - rhel-7-server-rpms
+    - rhel-7-server-extras-rpms
+    - rhel-7-server-optional-rpms
+    tags:
+    - docker
+
+  - name: Install Docker
+    yum:
+      name: docker-ce
+      state: present
+    tags:
+    - docker 
+
+  - name: Deregister from RHSM
+    redhat_subscription:
+      state: absent
+    tags:
+    - docker
+    - rhsm
+
+  - name: Add 'docker' Group
+    group:
+      name: docker
+      state: present
+    tags:
+    - docker
+
+  - name: Enable Docker Service
+    systemd:
+      name: docker
+      state: started
+      enabled: yes
+      daemon_reload: yes
+    tags:
+    - docker

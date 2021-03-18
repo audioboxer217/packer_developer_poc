@@ -1,0 +1,70 @@
+yum_repos:
+- name: docker-ce-stable
+  description: Docker CE Stable - $basearch
+  file: docker-ce
+  baseurl: https://download.docker.com/linux/centos/7/$basearch/stable
+  enabled: yes
+  gpgcakey: "https://download.docker.com/linux/centos/gpg"
+
+- name: docker-ce-stable-debuginfo
+  description: Docker CE Stable - Debuginfo $basearch
+  file: docker-ce
+  baseurl: https://download.docker.com/linux/centos/7/debug-$basearch/stable
+  enabled: no
+  gpgcakey: "https://download.docker.com/linux/centos/gpg"
+
+- name: docker-ce-stable-source
+  description: Docker CE Stable - Sources
+  file: docker-ce
+  baseurl: https://download.docker.com/linux/centos/7/source/stable
+  enabled: no
+  gpgcakey: "https://download.docker.com/linux/centos/gpg"
+
+- name: docker-ce-test
+  description: Docker CE Test - $basearch
+  file: docker-ce
+  baseurl: https://download.docker.com/linux/centos/7/$basearch/test
+  enabled: no
+  gpgcakey: "https://download.docker.com/linux/centos/gpg"
+
+- name: docker-ce-test-debuginfo
+  description: Docker CE Test - Debuginfo $basearch
+  file: docker-ce
+  baseurl: https://download.docker.com/linux/centos/7/debug-$basearch/test
+  enabled: no
+  gpgcakey: "https://download.docker.com/linux/centos/gpg"
+
+- name: docker-ce-test-source
+  description: Docker CE Test - Sources
+  file: docker-ce
+  baseurl: https://download.docker.com/linux/centos/7/source/test
+  enabled: no
+  gpgcakey: "https://download.docker.com/linux/centos/gpg"
+
+- name: docker-ce-nightly
+  description: Docker CE Nightly - $basearch
+  file: docker-ce
+  baseurl: https://download.docker.com/linux/centos/7/$basearch/nightly
+  enabled: no
+  gpgcakey: "https://download.docker.com/linux/centos/gpg"
+
+- name: docker-ce-nightly-debuginfo
+  description: Docker CE Nightly - Debuginfo $basearch
+  file: docker-ce
+  baseurl: https://download.docker.com/linux/centos/7/debug-$basearch/nightly
+  enabled: no
+  gpgcakey: "https://download.docker.com/linux/centos/gpg"
+
+- name: docker-ce-nightly-source
+  description: Docker CE Nightly - Sources
+  file: docker-ce
+  baseurl: https://download.docker.com/linux/centos/7/source/nightly
+  enabled: no
+  gpgcakey: "https://download.docker.com/linux/centos/gpg"
+
+- name: endpoint_repo 
+  description: Endpoint repo for git
+  file: git
+  baseurl: https://packages.endpoint.com/rhel/7/os/x86_64/
+  enabled: yes
+  gpgcakey: "https://packages.endpoint.com/endpoint-rpmsign-7.pub"
