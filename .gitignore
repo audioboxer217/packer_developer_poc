@@ -1,0 +1,9 @@
+# Packer Items
+packer_cache/
+output-*/
+
+# OS ISO
+iso/
+
+# Custom User Var files
+*.auto.pkrvars.hcl
