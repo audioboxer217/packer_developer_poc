@@ -199,3 +199,5 @@
       src: /usr/lib/systemd/system/graphical.target
       dest: /etc/systemd/system/default.target
       state: link
+    tags:
+    - enable_gui
