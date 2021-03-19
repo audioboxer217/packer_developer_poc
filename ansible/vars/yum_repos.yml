@@ -68,3 +68,11 @@ yum_repos:
   baseurl: https://packages.endpoint.com/rhel/7/os/x86_64/
   enabled: yes
   gpgcakey: "https://packages.endpoint.com/endpoint-rpmsign-7.pub"
+
+- name: code
+  description: Visual Studio Code repo
+  file: vscode
+  baseurl: https://packages.microsoft.com/yumrepos/vscode
+  gpgcakey: https://packages.microsoft.com/keys/microsoft.asc
+  enabled: yes
+  gpgcheck: yes
