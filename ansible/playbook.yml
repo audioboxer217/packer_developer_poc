@@ -1,5 +1,4 @@
 ---
-# playbook.yml
 - name: 'Provision Image'
   hosts: default
   become: true
@@ -89,19 +88,51 @@
     - rhel-7-server-optional-rpms
     tags:
     - docker
+    - packages
+    - rhsm
 
-  - name: Install Docker
+  - name: Install Packages
     yum:
-      name: docker-ce
+      name: 
+      - docker-ce
+      - autoconf
+      - automake
+      - bc
+      - binutils
+      - curl
+      - http://fr2.rpmfind.net/linux/centos/7.9.2009/os/x86_64/Packages/doxygen-1.8.5-4.el7.x86_64.rpm
+      - gcc-c++
+      - git
+      - graphviz
+      - libGLU
+      - libstdc++
+      - libtool
+      - libwayland-egl
+      - libwayland-server
+      - libwayland-client
+      - libxcb
+      - libxcb-devel
+      - m4
+      - make
+      - mesa-libGLU-devel
+      - mesa-libGL
+      - perl
+      - python
+      - sqlite
+      - sqlite-devel
+      - sudo
+      - valgrind
       state: present
     tags:
-    - docker 
+    - docker
+    - packages
 
   - name: Deregister from RHSM
     redhat_subscription:
       state: absent
     tags:
     - docker
+    - packages
     - rhsm
 
   - name: Install NetBeans
@@ -111,7 +142,7 @@
       mode: '0755'
     tags:
     - NetBeans
-    
+
   - name: Add 'docker' Group
     group:
       name: docker
