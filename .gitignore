@@ -7,3 +7,6 @@ iso/
 
 # Custom User Var files
 *.auto.pkrvars.hcl
+
+# Ansible Test files
+inventory
