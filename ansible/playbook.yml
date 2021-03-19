@@ -4,6 +4,8 @@
   become: true
   gather_facts: no
   vars:
+    nfs_server: NFS_SERVER.EXAMPLE.COM
+    nfs_share: /nfs_share
     local_user: packer
     working_dir: /home/{{ local_user }}/work
   vars_files:
@@ -208,6 +210,18 @@
     when: driver_download is changed
     tags:
     - canbus
+
+  - name: Mount NFS_Share
+    mount:
+      src: "{{ nfs_server}}:{{nfs_share}}"
+      path: /mnt/dev_tools
+      fstype: nfs
+      opts: defaults
+      dump: '0'
+      passno: '0'
+      state: mounted
+    tags:
+    - nfs
 
   - name: Enable GUI
     file:
