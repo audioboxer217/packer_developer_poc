@@ -223,6 +223,14 @@
     tags:
     - nfs
 
+  - name: Fix OpenGL Lib Issue
+    file:
+      src: /lib64/libGL.so.1
+      dest: /lib64/libGL.so
+      state: link
+    tags:
+    - OpenGL_Lib_fix
+
   - name: Enable GUI
     file:
       src: /usr/lib/systemd/system/graphical.target
