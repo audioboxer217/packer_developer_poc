@@ -158,3 +158,35 @@
       daemon_reload: yes
     tags:
     - docker
+
+  - name: Get Linux Canbus Driver
+    get_url:
+      url: https://www.kvaser.com/downloads-kvaser/?utm_source=software&utm_ean=7330130980754&utm_status=latest
+      dest: /root/
+    register: driver_download
+    tags:
+    - canbus
+
+  - name: Install Canbus
+    block:
+    - name: Unzip Linux Canbus Driver
+      unarchive:
+        src: /root/linuxcan.tar.gz
+        dest: /usr/src/
+        remote_src: yes
+
+    - name: Make linuxcan
+      make:
+        chdir: /usr/src/linuxcan
+        
+    - name: Make install linuxcan
+      make:
+        chdir: /usr/src/linuxcan
+        target: install
+
+    - name: Execute mhydra.sh
+      command: /usr/sbin/mhydra.sh start
+
+    when: driver_download is changed
+    tags:
+    - canbus
