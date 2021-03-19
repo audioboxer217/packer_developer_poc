@@ -140,8 +140,7 @@
 
   - name: Install NetBeans
     get_url:
-      url: https://usg02.safelinks.protection.office365.us/?url=https%3A%2F%2Fmirror.jframeworks.com%2Fapache%2Fnetbeans%2Fnetbeans%2F12.3%2FApache-NetBeans-12.3-bin-linux-x64.sh&data=04%7C01%7Cscott.eppler%40gibbscox.com%7C85a2a8e5b38d47386c5a08d8e9415fa8%7C9652f5df1050465d96dcab6a98182c5b%7C0%7C0%7C637515814295658454%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&sdata=ZSSqNQDD4pNjRfjUskSxkdG1cyunm5SfT3wyt0Ccveg%3D&reserved=0
-      dest: /usr/local/bin/
+      url: https://mirror.jframeworks.com/apache/netbeans/netbeans/12.3/Apache-NetBeans-12.3-bin-linux-x64.sh
       mode: '0755'
     tags:
     - NetBeans
