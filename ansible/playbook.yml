@@ -103,6 +103,7 @@
       - binutils
       - curl
       - http://fr2.rpmfind.net/linux/centos/7.9.2009/os/x86_64/Packages/doxygen-1.8.5-4.el7.x86_64.rpm
+      - https://download-ib01.fedoraproject.org/pub/epel/7/x86_64/Packages/m/meld-3.16.4-2.el7.noarch.rpm
       - gcc-c++
       - git
       - graphviz
