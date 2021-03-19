@@ -3,6 +3,9 @@
   hosts: default
   become: true
   gather_facts: no
+  vars:
+    local_user: packer
+    working_dir: /home/{{ local_user }}/work
   vars_files:
   - vars/yum_repos.yml
   tasks:
@@ -138,13 +141,6 @@
     - packages
     - rhsm
 
-  - name: Install NetBeans
-    get_url:
-      url: https://mirror.jframeworks.com/apache/netbeans/netbeans/12.3/Apache-NetBeans-12.3-bin-linux-x64.sh
-      mode: '0755'
-    tags:
-    - NetBeans
-
   - name: Add 'docker' Group
     group:
       name: docker
@@ -160,6 +156,26 @@
       daemon_reload: yes
     tags:
     - docker
+
+  - name: Create 'work' Directory
+    become: false
+    file:
+      path: "{{ working_dir }}"
+      state: directory
+      owner: "{{ local_user }}"
+      group: "{{ local_user }}"
+      mode: "0755"
+    tags:
+    - NetBeans
+
+  - name: Install NetBeans
+    become: false
+    get_url:
+      url: https://mirror.jframeworks.com/apache/netbeans/netbeans/12.3/Apache-NetBeans-12.3-bin-linux-x64.sh
+      dest: "{{ working_dir }}/"
+      mode: '0755'
+    tags:
+    - NetBeans
 
   - name: Get Linux Canbus Driver
     get_url:
