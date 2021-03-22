@@ -1,0 +1,18 @@
+- name: Execute RTI Installer - 1
+  command: /mnt/dev_tools/rti_connext_dds-6.0.1-pro-host-x64Linux.run --mode unattended --prefix /opt
+
+- name: Execute RTI Installer - 2
+  command: /opt/rti_connext_dds-6.0.1/bin/rtipkginstall -u /mnt/dev_tools/rti_connext_dds-6.0.1-pro-target-x64Linux3gcc4.8.2.rtipkg
+
+- name: Copy License File
+  copy:
+    src: /mnt/dev_tools/license files/rti_license.dat
+    dest: /opt/rti_connext_dds-6.0.1/rti_license.dat
+
+- name: Update $PATH in .bashrc
+  lineinfile:
+    path: /home/{{ local_user }}/.bashrc
+    line: "{{ item }}"
+  with_items:
+  - "export NDDS_HOME /opt/rti_connext_dds-6.0.1"
+  - "export PATH $PATH:/usr/local/bin:$NDDS_HOME/bin"

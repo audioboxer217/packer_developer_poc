@@ -171,6 +171,7 @@
     tags:
     - NetBeans
     - protobuf
+    - rti_connext
 
   - name: Install NetBeans
     become: false
@@ -225,12 +226,18 @@
     tags:
     - nfs
     - protobuf
+    - rti_connext
     
   - name: Install Protobuf
     become: false
     import_tasks: install_protobuf.yml
     tags:
     - protobuf
+
+  - name: Install RTI Connext
+    import_tasks: install_rti_connext.yml
+    tags:
+    - rti_connext
 
   - name: Fix OpenGL Lib Issue
     file:
