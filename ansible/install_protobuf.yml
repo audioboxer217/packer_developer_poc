@@ -1,0 +1,30 @@
+- name: Unzip Protobuf
+  unarchive:
+    src: /mnt/dev_tools/protobuf-all-3.11.4.zip
+    dest: "{{ working_dir }}"
+
+- name: Execute `autogent.sh`
+  command: ./autogen.sh
+  args:
+    chdir: "{{ working_dir }}"
+  
+- name: Execute `configure`
+  command: ./configure --prefix=/usr
+  args:
+    chdir: "{{ working_dir }}"
+
+- name: Execute `make`
+  make:
+    chdir: "{{ working_dir}}"
+
+- name: Execute `make install` as root
+  become: yes
+  make:
+    chdir: "{{ working_dir}}"
+    target: install
+
+- name: Execute `ldconfig` as root
+  become: yes
+  command: ldconfig
+  args:
+    chdir: "${{ working_dir }}"

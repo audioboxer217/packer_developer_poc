@@ -169,6 +169,7 @@
       mode: "0755"
     tags:
     - NetBeans
+    - protobuf
 
   - name: Install NetBeans
     become: false
@@ -222,6 +223,13 @@
       state: mounted
     tags:
     - nfs
+    - protobuf
+    
+  - name: Install Protobuf
+    become: false
+    import_tasks: install_protobuf.yml
+    tags:
+    - protobuf
 
   - name: Fix OpenGL Lib Issue
     file:
