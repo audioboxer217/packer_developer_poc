@@ -261,3 +261,12 @@
       state: link
     tags:
     - enable_gui
+
+  - name: Generate SSH Key
+    openssh_keypair:
+      path: /home/{{ local_user }}/.ssh/id_rsa
+      owner: "{{ local_user }}"
+      group: "{{ local_user }}"
+      mode: 0600
+    tags:
+    - ssh_key
