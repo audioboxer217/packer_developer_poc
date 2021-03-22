@@ -1,0 +1,17 @@
+- name: Get QtCreator
+  copy:
+    src: /mnt/dev_tools/qt-opensource-linux-x64-5.13.2.run
+    dest: "{{ working_dir }}/"
+    owner: "{{ local_user }}"
+    group: "{{ local_user }}"
+
+- name: Install QtCreator
+  become: false
+  command: ./qt-opensource-linux-x64-5.13.2.run
+  args:
+    chdir: "{{ working_dir }}"
+
+- name: Update .bashrc with display fix for QtCreator
+  lineinfile:
+    path: /home/{{ local_user }}/.bashrc
+    line: xhost +SI:localuser:root

@@ -172,6 +172,7 @@
     - NetBeans
     - protobuf
     - rti_connext
+    - qtcreator
 
   - name: Install NetBeans
     become: false
@@ -227,6 +228,7 @@
     - nfs
     - protobuf
     - rti_connext
+    - qtcreator
     
   - name: Install Protobuf
     become: false
@@ -238,6 +240,11 @@
     import_tasks: install_rti_connext.yml
     tags:
     - rti_connext
+
+  - name: Install QtCreator
+    import_tasks: install_qtcreator.yml
+    tags:
+    - qtcreator
 
   - name: Fix OpenGL Lib Issue
     file:
