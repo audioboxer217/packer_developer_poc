@@ -142,6 +142,7 @@
     - docker
     - packages
     - rhsm
+    - deregister
 
   - name: Add 'docker' Group
     group:
