@@ -1,6 +1,6 @@
 ---
 - name: 'Provision Image'
-  hosts: default
+  hosts: localhost
   become: true
   gather_facts: no
   vars:
@@ -70,17 +70,6 @@
     when: '"git version 2.30" not in git_version.stdout'
     tags:
     - git
-  
-  - name: Register with RHSM
-    redhat_subscription:
-      username: "{{ rhsm_user }}"
-      password: "{{ rhsm_pass }}"
-      pool: "{{ rhsm_pool }}"
-      state: present
-      force_register: yes
-    tags:
-    - docker
-    - rhsm
 
   - name: Enable RHEL 7 Extras
     rhsm_repository:
@@ -134,15 +123,6 @@
     tags:
     - docker
     - packages
-
-  - name: Deregister from RHSM
-    redhat_subscription:
-      state: absent
-    tags:
-    - docker
-    - packages
-    - rhsm
-    - deregister
 
   - name: Add 'docker' Group
     group:
@@ -261,6 +241,16 @@
       state: link
     tags:
     - enable_gui
+
+  - name: Create .ssh Dir
+    file:
+      path: /home/{{ local_user }}/.ssh
+      state: directory
+      owner: "{{ local_user }}"
+      group: "{{ local_user }}"
+      mode: 0600
+    tags:
+    - ssh_key
 
   - name: Generate SSH Key
     openssh_keypair:

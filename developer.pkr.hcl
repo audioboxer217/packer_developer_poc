@@ -21,11 +21,21 @@ source "vmware-iso" "developer-workstation" {
 
 build {
   sources = ["sources.vmware-iso.developer-workstation"]
-  provisioner "ansible" {
-    playbook_file = "./ansible/playbook.yml"
-    extra_arguments = [
-      "--extra-vars",
-      "rhsm_user=${ var.rhsm_user } rhsm_pass=${ var.rhsm_pass } rhsm_pool=${ var.rhsm_pool }"
+  provisioner "shell" {
+    environment_vars = [
+      "RHSM_USERNAME=${var.rhsm_user}",
+      "RHSM_PASSWORD=${var.rhsm_pass}",
+      "RHSM_POOL=${var.rhsm_pool}"
     ]
+    execute_command = "echo '${var.system_pass}' | {{.Vars}} sudo -S -E bash '{{.Path}}'"
+    script = "scripts/ansible.sh"
+  }
+  provisioner "ansible-local" {
+    playbook_dir = "./ansible"
+    playbook_file = "./ansible/playbook.yml"
+  }
+  provisioner "shell" {
+    execute_command = "echo '${var.system_pass}' | {{.Vars}} sudo -S -E bash '{{.Path}}'"
+    script = "scripts/cleanup.sh"
   }
 }
